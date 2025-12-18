@@ -1,0 +1,13 @@
+{% extends "learning_logs/base.html" %}
+{% block page_header %}
+  <div class="jumbotron">
+    <h1 class="display-3">Log your Year.</h1>
+    
+    <p class="lead">LogYourYear helps you keep track of the topics you’re learning.
+      Add a topic anytime, and whenever you learn something new, create an entry to summarize your progress and growth over the year.</p>
+      <p>Ready to get started? Remember you get out of life what you give it. </p>
+    
+    <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"      
+        role="button">Register &raquo;</a>
+  </div>
+{% endblock page_header %}
