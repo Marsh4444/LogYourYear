@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     #my apps
+    'todo',
     
 
     #default Django app
