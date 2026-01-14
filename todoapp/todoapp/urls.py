@@ -21,5 +21,8 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+
+    #TO DO: Add URL mapping for todo app
+    path('todo/', include('todo.urls')),
     
 ]
