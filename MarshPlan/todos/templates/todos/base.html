@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!-- 
+    Base Template for Todo App
+    ============================
+    This is the base template that all other templates inherit from.
+    It defines the overall layout, styling, and structure for the application.
+    
+    Child templates can override:
+    - title block: Page title
+    - extra_css block: Additional CSS
+    - content block: Main page content
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Todo App{% endblock %}</title>
+    
+    <!-- 
+        STYLESHEET SECTION
+        Defines all styles for the todo application including:
+        - Layout and spacing
+        - Colors and gradients
+        - Button and form styling
+        - Todo item cards
+        - Responsive design
+    -->
+    <style>
+        /* Reset default browser margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling - gradient background and typography */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Gradient background: purple to violet */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main container - centered with max width */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header styling - centered with white text */
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Statistics text below header title */
+        .stats {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95em;
+        }
+
+        /* Card container - white box with shadow */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Button base styling */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Primary button - blue color */
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Success button - green color */
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        /* Danger button - red color for delete actions */
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        /* Secondary button - gray color */
+        .btn-secondary {
+            background: #a0aec0;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #718096;
+        }
+
+        /* Small button size */
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.9em;
+        }
+
+        /* Form group - wrapper for form elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* Form label styling */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Form input and textarea base styling */
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        /* Textarea specific styling */
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Form focus state - highlight and shadow when focused */
+        input[type="text"]:focus,
+        input[type="datetime-local"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Todo item container - flexbox layout */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+            transition: all 0.3s ease;
+        }
+
+        /* Todo item hover effect */
+        .todo-item:hover {
+            border-color: #cbd5e0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Completed todo styling - faded appearance */
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+
+        .todo-item.completed .todo-title {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        /* Checkbox for todo completion */
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        /* Todo content wrapper - takes up remaining space */
+        .todo-content {
+            flex: 1;
+        }
+
+        /* Todo title styling */
+        .todo-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 5px;
+        }
+
+        /* Todo metadata (description, due date) */
+        .todo-meta {
+            font-size: 0.85em;
+            color: #718096;
+        }
+
+        /* Action buttons container - flex layout for spacing */
+        .todo-actions {
+            display: flex;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        .todo-actions form {
+            margin: 0;
+        }
+
+        /* Empty state message when no todos exist */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        /* Add todo form section */
+        .add-todo-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .add-todo-section input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Action buttons container - equal width buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Back link navigation */
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Add arrow before back link */
+        .back-link::before {
+            content: "← ";
+        }
+    </style>
+    <!-- Additional CSS can be added by child templates using the extra_css block -->
+    
+</head>
+<body>
+    <!-- Main container for page content -->
+    <div class="container">
+        <!-- 
+            Main content block
+            Child templates override this to provide page-specific content
+        --
+            text-align: center;
+        }
+
+        /* Back link navigation */
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Add arrow before back link */
+        .back-link::before {
+            content: "← ";
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% extends 'todos/base.html' %}
+
+<!-- Page title - displayed in browser tab -->
+{% block title %}Marsh Plan{% endblock %}
+
+{% block content %}
+<!-- Header section with title and statistics -->
+<header>
+    <!-- Main page title with emoji -->
+    <h1>📋 My plans</h1>
+    
+    <!-- Display completion statistics -->
+    <div class="stats">
+        {% if total_count > 0 %}
+            <!-- Show progress: X completed out of Y total -->
+            <p>{{ completed_count }}/{{ total_count }} completed</p>
+        {% else %}
+            <!-- Show message when no todos exist -->
+            <p>No todos yet. Create one to get started!</p>
+        {% endif %}
+    </div>
+</header>
+
+<!-- Card containing the "Add New Todo" button -->
+<div class="card">
+    <!-- Link to the todo creation form -->
+    <a href="{% url 'todo_create' %}" class="btn btn-primary" style="width: 100%; text-align: center;">+ Add New Todo</a>
+</div>
+
+<!-- Conditional rendering: Show todos if any exist, otherwise show empty state -->
+{% if todos %}
+    <!-- Card container for all todo items -->
+    <div class="card">
+        <!-- Loop through each todo and display it -->
+        {% for todo in todos %}
+            <!-- 
+                Individual todo item
+                - Flexbox layout with checkbox, content, and actions
+                - Add "completed" class to style completed todos differently
+            -->
+            <div class="todo-item {% if todo.completed %}completed{% endif %}">
+                
+                <!-- Checkbox to toggle completion status -->
+                <form method="post" action="{% url 'todo_toggle' todo.pk %}" style="display: inline-block; margin: 0;">
+                    {% csrf_token %}
+                    <!-- Checkbox that submits form on change -->
+                    <input type="checkbox" class="todo-checkbox" onchange="this.form.submit()" {% if todo.completed %}checked{% endif %}>
+                </form>
+                
+                <!-- Todo content: title, description, and due date -->
+                <div class="todo-content">
+                    <!-- Link to view full todo details -->
+                    <a href="{% url 'todo_detail' todo.pk %}" style="text-decoration: none; color: inherit;">
+                        <!-- Todo title - primary text -->
+                        <div class="todo-title">{{ todo.title }}</div>
+                        
+                        <!-- Todo description (if exists) - truncated to 10 words -->
+                        {% if todo.description %}
+                            <div class="todo-meta">{{ todo.description|truncatewords:10 }}</div>
+                        {% endif %}
+                        
+                        <!-- Due date (if set) - formatted as "MMM DD, YYYY HH:MM" -->
+                        {% if todo.due_date %}
+                            <div class="todo-meta">Due: {{ todo.due_date|date:"M d, Y H:i" }}</div>
+                        {% endif %}
+                    </a>
+                </div>
+
+                <!-- Action buttons: Edit and Delete -->
+                <div class="todo-actions">
+                    <!-- Edit button - links to update form -->
+                    <a href="{% url 'todo_update' todo.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                    
+                    <!-- Delete button - POST form with confirmation -->
+                    <form method="post" action="{% url 'todo_delete' todo.pk %}" style="display: inline-block;">
+                        {% csrf_token %}
+                        <!-- Delete button with JavaScript confirmation -->
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <!-- Empty state: Show message and link when no todos exist -->
+    <div class="card empty-state">
+        <div class="empty-state-icon">📝</div>
+        <p>No todos yet. <a href="{% url 'todo_create' %}" style="color: #667eea; text-decoration: underline;">Create one!</a></p>
+    </div>
+{% endif %}
+{% endblock %}

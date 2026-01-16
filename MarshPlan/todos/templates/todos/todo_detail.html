@@ -1,0 +1,79 @@
+{% extends 'todos/base.html' %}
+
+<!-- Page title - displayed in browser tab -->
+{% block title %}{{ todo.title }} - Todo{% endblock %}
+
+{% block content %}
+<!-- Back to list navigation link -->
+<a href="{% url 'home' %}" class="back-link">Back to Todos</a>
+
+<!-- Main card containing todo details -->
+<div class="card">
+    <!-- Todo title as heading -->
+    <h2 style="margin-bottom: 20px;">{{ todo.title }}</h2>
+    
+    <!-- Display description if it exists -->
+    {% if todo.description %}
+        <div style="margin-bottom: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 10px;">Description</h3>
+            <!-- Full description text -->
+            <p style="color: #4a5568; line-height: 1.6;">{{ todo.description }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Metadata section: status, dates, and timestamps -->
+    <div style="margin-bottom: 20px; padding: 15px; background: #f9fafb; border-radius: 5px;">
+        <h3 style="color: #667eea; margin-bottom: 10px;">Details</h3>
+        
+        <!-- Completion status with color indicator -->
+        <p><strong>Status:</strong> 
+            {% if todo.completed %}
+                <!-- Green checkmark for completed todos -->
+                <span style="color: #48bb78;">✓ Completed</span>
+            {% else %}
+                <!-- Orange indicator for pending todos -->
+                <span style="color: #f6ad55;">Pending</span>
+            {% endif %}
+        </p>
+        
+        <!-- When the todo was created (auto-generated timestamp) -->
+        <p><strong>Created:</strong> {{ todo.created_at|date:"M d, Y H:i" }}</p>
+        
+        <!-- Last time the todo was modified -->
+        <p><strong>Last Updated:</strong> {{ todo.updated_at|date:"M d, Y H:i" }}</p>
+        
+        <!-- Due date if it was set -->
+        {% if todo.due_date %}
+            <p><strong>Due Date:</strong> {{ todo.due_date|date:"M d, Y H:i" }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Action buttons section -->
+    <div class="action-buttons">
+        <!-- Edit button - links to update form -->
+        <a href="{% url 'todo_update' todo.pk %}" class="btn btn-primary">Edit</a>
+        
+        <!-- Toggle completion button - changes based on current status -->
+        {% if not todo.completed %}
+            <!-- Show "Mark Complete" button if todo is not completed -->
+            <form method="post" action="{% url 'todo_toggle' todo.pk %}" style="flex: 1;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success" style="width: 100%;">Mark Complete</button>
+            </form>
+        {% else %}
+            <!-- Show "Mark Incomplete" button if todo is already completed -->
+            <form method="post" action="{% url 'todo_toggle' todo.pk %}" style="flex: 1;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Mark Incomplete</button>
+            </form>
+        {% endif %}
+        
+        <!-- Delete button - removes todo from database -->
+        <form method="post" action="{% url 'todo_delete' todo.pk %}" style="flex: 1;">
+            {% csrf_token %}
+            <!-- Delete button with JavaScript confirmation to prevent accidental deletion -->
+            <button type="submit" class="btn btn-danger" style="width: 100%;" onclick="return confirm('Are you sure?')">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

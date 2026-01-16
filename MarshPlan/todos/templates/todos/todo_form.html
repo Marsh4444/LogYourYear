@@ -1,0 +1,70 @@
+{% extends 'todos/base.html' %}
+
+<!-- Page title - changes based on create vs edit mode -->
+{% block title %}{% if todo %}Edit Todo{% else %}New Todo{% endif %}{% endblock %}
+
+{% block content %}
+<!-- Back to list navigation link -->
+<a href="{% url 'home' %}" class="back-link">Back to Todos</a>
+
+<!-- Main card containing the form -->
+<div class="card">
+    <!-- Form title - changes based on create vs edit mode -->
+    <h2 style="margin-bottom: 20px;">{% if todo %}Edit Todo{% else %}Create New Todo{% endif %}</h2>
+
+    <!-- Form submission -->
+    <form method="post">
+        <!-- Django CSRF token for security -->
+        {% csrf_token %}
+        
+        <!-- Title field -->
+        <div class="form-group">
+            <label for="title">Title *</label>
+            <!-- 
+                Text input for todo title
+                - Required field (marked with *)
+                - Pre-filled with existing title if editing
+                - Placeholder shows expected input
+            -->
+            <input type="text" id="title" name="title" placeholder="Enter todo title" 
+                   value="{% if todo %}{{ todo.title }}{% endif %}" required>
+        </div>
+
+        <!-- Description field -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <!-- 
+                Textarea for detailed description
+                - Optional field
+                - Pre-filled with existing description if editing
+                - Allows multi-line input
+            -->
+            <textarea id="description" name="description" placeholder="Enter todo description">{% if todo %}{{ todo.description }}{% endif %}</textarea>
+        </div>
+
+        <!-- Due date field -->
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <!-- 
+                DateTime input for setting a due date
+                - Optional field
+                - Provides date and time picker
+                - Pre-filled with existing due date if editing
+                - Format: YYYY-MM-DDTHH:MM for HTML datetime-local input
+            -->
+            <input type="datetime-local" id="due_date" name="due_date" 
+                   value="{% if todo and todo.due_date %}{{ todo.due_date|date:'Y-m-dTH:i' }}{% endif %}">
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons">
+            <!-- Submit button - text changes based on create vs edit mode -->
+            <button type="submit" class="btn btn-primary">
+                {% if todo %}Save Changes{% else %}Create Todo{% endif %}
+            </button>
+            <!-- Cancel button - returns to todo list without saving -->
+            <a href="{% url 'home' %}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
