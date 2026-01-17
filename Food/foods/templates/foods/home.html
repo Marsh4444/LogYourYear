@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealGo - Track Your Food Orders</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --primary-dark: #e85a2a;
+            --secondary: #ffa45b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1f2937;
+            --light: #fef3e2;
+            --border: #ffe4c4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 50%, #ff4757 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .app-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 35px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .app-header .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .app-header .logo-icon {
+            font-size: 3.5rem;
+            background: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .app-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .app-header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .stats-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px 35px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr;
+            gap: 0;
+            min-height: 550px;
+        }
+
+        .orders-section {
+            padding: 35px;
+            border-right: 2px solid var(--border);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h4 {
+            color: var(--dark);
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-card {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff 100%);
+            border: 2px solid var(--border);
+            border-left: 6px solid var(--primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .order-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            border-color: var(--primary);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .order-info h5 {
+            color: var(--dark);
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .order-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .order-detail-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-preparing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-complete {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-complete:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-edit {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .completed-section {
+            padding: 35px;
+            background: #fafafa;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .completed-section h4 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .completed-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-left: 6px solid var(--success);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            opacity: 0.85;
+            transition: all 0.3s ease;
+        }
+
+        .completed-card:hover {
+            opacity: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .completed-card h6 {
+            color: #6b7280;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            text-decoration: line-through;
+        }
+
+        .completed-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .btn-undo {
+            width: 100%;
+            padding: 8px;
+            background: var(--info);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-undo:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .add-order-section {
+            padding: 30px 35px;
+            background: var(--light);
+            border-top: 3px solid var(--primary);
+        }
+
+        .add-order-section h5 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group-full {
+            grid-column: 1 / -1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+        }
+
+        .btn-add-order {
+            grid-column: 1 / -1;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-add-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* Scrollbar Styling */
+        .orders-section::-webkit-scrollbar,
+        .completed-section::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .orders-section::-webkit-scrollbar-track,
+        .completed-section::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        .orders-section::-webkit-scrollbar-thumb,
+        .completed-section::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-section {
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+                max-height: 400px;
+            }
+
+            .completed-section {
+                max-height: 350px;
+            }
+
+            .order-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-header h1 {
+                font-size: 2rem;
+            }
+
+            .app-header .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .order-card {
+                padding: 20px;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h1>MealGo</h1>
+            </div>
+            <p class="subtitle">Track your delicious food orders with ease</p>
+        </div>
+
+        <div class="main-card">
+            <div class="stats-banner">
+                <h3 style="margin: 0 0 10px 0;"><i class="fas fa-chart-line"></i> Order Dashboard</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Pending Orders</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <span class="stat-number">$245</span>
+                        <span class="stat-label">Total Spent</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-store"></i></div>
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Restaurants</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="orders-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-shopping-bag"></i> Active Orders</h4>
+                    </div>
+
+                    <!-- Sample Order 1 -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h5><i class="fas fa-pizza-slice"></i> Margherita Pizza</h5>
+                                <div class="order-details">
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-store"></i>
+                                        <span><strong>Restaurant:</strong> Tony's Pizzeria</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span><strong>Price:</strong> $18.99</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span><strong>Ordered:</strong> Today, 2:30 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="order-status status-preparing">Preparing</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-action btn-complete">
+                                <i class="fas fa-check"></i> Mark Complete
+                            </button>
+                            <button class="btn-action btn-edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn-action btn-delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sample Order 2 -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h5><i class="fas fa-hamburger"></i> Classic Cheeseburger Combo</h5>
+                                <div class="order-details">
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-store"></i>
+                                        <span><strong>Restaurant:</strong> Burger Haven</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span><strong>Price:</strong> $15.50</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span><strong>Ordered:</strong> Today, 1:15 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="order-status status-ready">Ready</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-action btn-complete">
+                                <i class="fas fa-check"></i> Mark Complete
+                            </button>
+                            <button class="btn-action btn-edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn-action btn-delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sample Order 3 -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h5><i class="fas fa-fish"></i> Salmon Sushi Platter</h5>
+                                <div class="order-details">
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-store"></i>
+                                        <span><strong>Restaurant:</strong> Sakura Sushi Bar</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span><strong>Price:</strong> $32.00</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span><strong>Ordered:</strong> Today, 12:45 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="order-status status-pending">Pending</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-action btn-complete">
+                                <i class="fas fa-check"></i> Mark Complete
+                            </button>
+                            <button class="btn-action btn-edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn-action btn-delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty State (show when no active orders) -->
+                    <!-- <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No active orders. Place a new order below!</p>
+                    </div> -->
+                </div>
+
+                <div class="completed-section">
+                    <h4><i class="fas fa-check-double"></i> Completed (2)</h4>
+
+                    <!-- Completed Order 1 -->
+                    <div class="completed-card">
+                        <h6><i class="fas fa-coffee"></i> Cappuccino & Croissant</h6>
+                        <div class="completed-info">
+                            <i class="fas fa-store"></i> Cafe Delight • $8.50
+                        </div>
+                        <button class="btn-undo">
+                            <i class="fas fa-undo"></i> Undo Complete
+                        </button>
+                    </div>
+
+                    <!-- Completed Order 2 -->
+                    <div class="completed-card">
+                        <h6><i class="fas fa-drumstick-bite"></i> BBQ Chicken Wings</h6>
+                        <div class="completed-info">
+                            <i class="fas fa-store"></i> Wing Stop • $14.99
+                        </div>
+                        <button class="btn-undo">
+                            <i class="fas fa-undo"></i> Undo Complete
+                        </button>
+                    </div>
+
+                    <!-- Empty State for Completed -->
+                    <!-- <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <p>No completed orders yet!</p>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="add-order-section">
+                <h5><i class="fas fa-plus-circle"></i> Create New Order</h5>
+                <form action="" method="POST" class="order-form">
+                    <div class="form-group-full">
+                        <input type="text" name="meal_name" class="form-input" placeholder="Meal Name (e.g., Pepperoni Pizza)" required>
+                    </div>
+                    <input type="text" name="restaurant" class="form-input" placeholder="Restaurant Name" required>
+                    <input type="number" name="price" step="0.01" class="form-input" placeholder="Price ($)" required>
+                    <button type="submit" class="btn-add-order">
+                        <i class="fas fa-plus"></i> Add Order
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
