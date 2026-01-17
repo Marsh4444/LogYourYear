@@ -552,22 +552,22 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                        <span class="stat-number">5</span>
-                        <span class="stat-label">Pending Orders</span>
+                <span class="stat-number">{{ pending_orders }}({{ preparing_orders }})</span>
+                        <span class="stat-label">Pending Orders(Preparing)</span>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                        <span class="stat-number">12</span>
-                        <span class="stat-label">Completed</span>
+                        <span class="stat-number">{{ completed_orders_count }}({{ ready_orders }})</span>
+                        <span class="stat-label">Completed (Ready)</span>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                        <span class="stat-number">$245</span>
+                        <span class="stat-number">${{ total_spent }}</span>
                         <span class="stat-label">Total Spent</span>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-store"></i></div>
-                        <span class="stat-number">8</span>
+                        <span class="stat-number">{{ restaurants_count }}</span>
                         <span class="stat-label">Restaurants</span>
                     </div>
                 </div>
@@ -576,114 +576,56 @@
             <div class="content-wrapper">
                 <div class="orders-section">
                     <div class="section-header">
-                        <h4><i class="fas fa-shopping-bag"></i> Active Orders</h4>
+                        <h4><i class="fas fa-shopping-bag"></i> Active Orders ({{ active_orders|length }})</h4>
                     </div>
 
                     <!-- Sample Order 1 -->
+                     {% for order in active_orders %}
                     <div class="order-card">
                         <div class="order-header">
                             <div class="order-info">
-                                <h5><i class="fas fa-pizza-slice"></i> Margherita Pizza</h5>
+                                <h5><i class="fas fa-shopping-bag"></i> {{ order.food_name }}</h5>
                                 <div class="order-details">
                                     <div class="order-detail-item">
+                                        <i class="fas fa-user"></i>
+                                        <span><strong>Customer:</strong> {{ order.customer_name }}</span>
+                                    </div>
+                                    <div class="order-detail-item">
                                         <i class="fas fa-store"></i>
-                                        <span><strong>Restaurant:</strong> Tony's Pizzeria</span>
+                                        <span><strong>Restaurant:</strong> {{ order.restaurant }}</span>
                                     </div>
                                     <div class="order-detail-item">
                                         <i class="fas fa-dollar-sign"></i>
-                                        <span><strong>Price:</strong> $18.99</span>
+                                        <span><strong>Price:</strong> ${{ order.price }}</span>
+                                    </div>
+                                    <div class="order-detail-item">
+                                        <i class="fas fa-box"></i>
+                                        <span><strong>Quantity:</strong> {{ order.quantity }}</span>
                                     </div>
                                     <div class="order-detail-item">
                                         <i class="fas fa-calendar"></i>
-                                        <span><strong>Ordered:</strong> Today, 2:30 PM</span>
+                                        <span><strong>Ordered:</strong> {{ order.created_at }}</span>
                                     </div>
                                 </div>
                             </div>
-                            <span class="order-status status-preparing">Preparing</span>
+                            <span class="order-status status-preparing">{{ order.get_status_display }}</span>
                         </div>
                         <div class="order-actions">
-                            <button class="btn-action btn-complete">
+                            <a href="{% url 'complete_order' order.pk %}"><button class="btn-action btn-complete">
                                 <i class="fas fa-check"></i> Mark Complete
-                            </button>
+                            </button></a>
+                            <a href="{% url 'edit_order' order.pk %}">
                             <button class="btn-action btn-edit">
                                 <i class="fas fa-edit"></i> Edit
-                            </button>
+                            </button></a>
                             <button class="btn-action btn-delete">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     </div>
+                    {% endfor %}
 
-                    <!-- Sample Order 2 -->
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <h5><i class="fas fa-hamburger"></i> Classic Cheeseburger Combo</h5>
-                                <div class="order-details">
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-store"></i>
-                                        <span><strong>Restaurant:</strong> Burger Haven</span>
-                                    </div>
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <span><strong>Price:</strong> $15.50</span>
-                                    </div>
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-calendar"></i>
-                                        <span><strong>Ordered:</strong> Today, 1:15 PM</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="order-status status-ready">Ready</span>
-                        </div>
-                        <div class="order-actions">
-                            <button class="btn-action btn-complete">
-                                <i class="fas fa-check"></i> Mark Complete
-                            </button>
-                            <button class="btn-action btn-edit">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn-action btn-delete">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Sample Order 3 -->
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <h5><i class="fas fa-fish"></i> Salmon Sushi Platter</h5>
-                                <div class="order-details">
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-store"></i>
-                                        <span><strong>Restaurant:</strong> Sakura Sushi Bar</span>
-                                    </div>
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <span><strong>Price:</strong> $32.00</span>
-                                    </div>
-                                    <div class="order-detail-item">
-                                        <i class="fas fa-calendar"></i>
-                                        <span><strong>Ordered:</strong> Today, 12:45 PM</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="order-status status-pending">Pending</span>
-                        </div>
-                        <div class="order-actions">
-                            <button class="btn-action btn-complete">
-                                <i class="fas fa-check"></i> Mark Complete
-                            </button>
-                            <button class="btn-action btn-edit">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn-action btn-delete">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
+                    
                     <!-- Empty State (show when no active orders) -->
                     <!-- <div class="empty-state">
                         <i class="fas fa-inbox"></i>
@@ -692,29 +634,20 @@
                 </div>
 
                 <div class="completed-section">
-                    <h4><i class="fas fa-check-double"></i> Completed (2)</h4>
+                    <h4><i class="fas fa-check-double"></i> Completed Orders ({{ completed_orders_list|length }})</h4>
 
                     <!-- Completed Order 1 -->
+                    {% for order in completed_orders_list %}
                     <div class="completed-card">
-                        <h6><i class="fas fa-coffee"></i> Cappuccino & Croissant</h6>
+                        <h6><i class="fas fa-coffee"></i> {{ order.food_name }} - {{ order.customer_name }}</h6>
                         <div class="completed-info">
-                            <i class="fas fa-store"></i> Cafe Delight • $8.50
+                            <i class="fas fa-store"></i> {{ order.restaurant }} • ${{ order.get_total_price }}
                         </div>
                         <button class="btn-undo">
                             <i class="fas fa-undo"></i> Undo Complete
                         </button>
                     </div>
-
-                    <!-- Completed Order 2 -->
-                    <div class="completed-card">
-                        <h6><i class="fas fa-drumstick-bite"></i> BBQ Chicken Wings</h6>
-                        <div class="completed-info">
-                            <i class="fas fa-store"></i> Wing Stop • $14.99
-                        </div>
-                        <button class="btn-undo">
-                            <i class="fas fa-undo"></i> Undo Complete
-                        </button>
-                    </div>
+                    {% endfor %}
 
                     <!-- Empty State for Completed -->
                     <!-- <div class="empty-state">
@@ -726,11 +659,14 @@
 
             <div class="add-order-section">
                 <h5><i class="fas fa-plus-circle"></i> Create New Order</h5>
-                <form action="" method="POST" class="order-form">
+                <form action="{% url 'create_order' %}" method="POST" class="order-form">
+                    {% csrf_token %}
+                    <input type="text" name="customer_name" class="form-input" placeholder="Customer Name (e.g., John Doe)" required>
                     <div class="form-group-full">
-                        <input type="text" name="meal_name" class="form-input" placeholder="Meal Name (e.g., Pepperoni Pizza)" required>
+                        <input type="text" name="food_name" class="form-input" placeholder="Food Name (e.g., Pepperoni Pizza)" required>
                     </div>
                     <input type="text" name="restaurant" class="form-input" placeholder="Restaurant Name" required>
+                    <input type="number" name="quantity" class="form-input" placeholder="Quantity" min="1" required>
                     <input type="number" name="price" step="0.01" class="form-input" placeholder="Price ($)" required>
                     <button type="submit" class="btn-add-order">
                         <i class="fas fa-plus"></i> Add Order
