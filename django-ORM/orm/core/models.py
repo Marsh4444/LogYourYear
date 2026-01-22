@@ -41,7 +41,7 @@ class Rating(models.Model):
     rating = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f"Rating {self.name}"
+        return f"Rating {self.rating}"
     
 
 class Sale(models.Model):
