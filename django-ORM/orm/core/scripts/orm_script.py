@@ -1,11 +1,22 @@
+from pprint import pprint
 from django.contrib.auth.models import User
-from core.models import Restaurant,Rating
+from core.models import Restaurant,Rating, Sale
 from django.utils import timezone
 from django.db import connection
 
 def run():
-    print(Rating.objects.filter(rating__lte=3))
-    #print(Rating.objects.filter(rating=4))
+    user = User.objects.first()
+    restaurant = Restaurant.objects.first()
 
-    print(connection.queries)
+    print(Rating.objects.get_or_create(
+        restaurant=restaurant,
+        user=user,
+        rating=4
+    ))
+
+    pprint(connection.queries)
+
+
+
+
     
