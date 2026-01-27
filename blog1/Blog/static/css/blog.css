@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #1a1a2e;
+}
+
+.main-container {
+    background: rgba(255, 255, 255, 0.98);
+    min-height: 100vh;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+.top-bar {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 0;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 0.85rem;
+}
+
+.header {
+    background: white;
+    border-bottom: 3px solid #667eea;
+    padding: 20px 0;
+}
+
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+}
+
+.auth-buttons .btn {
+    border-radius: 25px;
+    padding: 8px 24px;
+    font-weight: 500;
+}
+
+.btn-login {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.btn-register {
+    border: 2px solid #667eea;
+    color: #667eea;
+    background: white;
+}
+
+.categories-nav {
+    background: #f8f9fa;
+    padding: 15px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 0 8px;
+    background: white;
+    border-radius: 20px;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.hero-post {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 60px;
+    margin: 30px 0;
+    color: white;
+}
+
+.hero-post h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+}
+
+.read-more {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 12px 30px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 25px;
+}
+
+.post-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.post-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #667eea;
+}
+
+.post-meta {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.sidebar-widget {
+    background: #f1f3f5;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-left: 4px solid #667eea;
+}
+
+.sidebar-widget h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #667eea;
+}
+
+.social-links {
+    list-style: none;
+}
+
+.social-links a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+footer {
+    background: #1a1a2e;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+}
+
+footer a {
+    color: #667eea;
+    text-decoration: none;
+}
