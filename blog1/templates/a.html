@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevThoughts - A Developer's Blog</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+</head>
+<body>
+    <div class="main-container">
+
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <span>📅 Monday, January 26, 2026</span>
+                    <span>☁️ Your daily dose of code & creativity</span>
+                </div>
+            </div>
+        </div>
+
+        <header class="header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <a class="logo" href="/">DevThoughts</a>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end align-items-center auth-buttons">
+                        <a class="btn btn-login me-2" href="#">Login</a>
+                        <a class="btn btn-register" href="#">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="categories-nav">
+            <div class="container">
+                <a class="category-tag" href="#">🌐 Web Dev</a>
+                <a class="category-tag" href="#">🐍 Python</a>
+                <a class="category-tag" href="#">⚛️ React</a>
+                <a class="category-tag" href="#">🎨 UI/UX</a>
+                <a class="category-tag" href="#">🤖 AI/ML</a>
+                <a class="category-tag" href="#">☁️ DevOps</a>
+                <a class="category-tag" href="#">📱 Mobile</a>
+                <a class="category-tag" href="#">🔒 Security</a>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="hero-post">
+                <div class="hero-post-content">
+                    <h1>Building Scalable Django Applications: A Deep Dive</h1>
+                    <p class="lead">
+                        Discover advanced patterns and best practices for creating Django projects
+                        that scale while remaining maintainable.
+                    </p>
+                    <a href="#" class="read-more">Read Full Article →</a>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="post-card">
+                        <h3>Async Views in Django 5.0</h3>
+                        <p class="post-meta">Jan 15 • by Sarah Chen</p>
+                        <p>Exploring asynchronous views and how they improve performance.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="post-card">
+                        <h3>REST API Security Best Practices</h3>
+                        <p class="post-meta">Jan 12 • by Mike Rodriguez</p>
+                        <p>Best practices for securing Django REST APIs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="post-card">
+                        <h3>Optimizing Database Queries with Django ORM</h3>
+                        <p class="post-meta">
+                            January 8, 2026 by
+                            <a href="#" class="author-link">Alex Johnson</a>
+                        </p>
+                        <p>
+                            Learn how select_related and prefetch_related help eliminate N+1 queries.
+                        </p>
+                    </div>
+                </div>
+
+                <aside class="col-md-4">
+                    <div class="sidebar-widget">
+                        <h4>💡 About This Blog</h4>
+                        <p>
+                            A platform where developers share real-world Django insights.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>🔗 Connect With Us</h4>
+                        <ul class="social-links">
+                            <li><a href="#">GitHub</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">Discord</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Crafted with 💜 by <a href="#">Marsh</a> | Powered by Django</p>
+    </footer>
+</body>
+</html>
