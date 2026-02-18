@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}DevThoughts{% endblock %}</title>
 
@@ -18,61 +17,68 @@
 </head>
 
 <body>
-    <div class="main-container">
+<div class="main-container">
 
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="container">
-                <div class="top-bar-content">
-                    <span>📅 {% now "l, F d, Y" %}</span>
-                    <span>☁️ Your daily dose of code & creativity</span>
-                </div>
+    <!-- Top Bar -->
+    <div class="top-bar py-2">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between text-center text-md-start">
+                <span>📅 {% now "l, F d, Y" %}</span>
+                <span>☁️ Your daily dose of code & creativity</span>
             </div>
         </div>
+    </div>
 
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <a class="logo" href="/">DevThoughts</a>
-                    </div>
-                    <div class="col-md-4 d-flex justify-content-end align-items-center auth-buttons">
-                        {% if user.is_authenticated %}
-                            <a class="btn btn-login me-2" href="#">Dashboard</a>
-                            <a class="btn btn-register" href="#">Logout</a>
-                        {% else %}
-                            <a class="btn btn-login me-2" href="#">Login</a>
-                            <a class="btn btn-register" href="#">Sign Up</a>
-                        {% endif %}
-                    </div>
+    <!-- Header -->
+    <header class="header py-3">
+        <div class="container">
+            <div class="row align-items-center text-center text-md-start">
+
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    <a class="logo" href="/">DevThoughts</a>
                 </div>
-            </div>
-        </header>
 
-        <!-- Categories Navigation -->
-        <nav class="categories-nav">
-            <div class="container">
+                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-2">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-login" href="#">Dashboard</a>
+                        <a class="btn btn-register" href="#">Logout</a>
+                    {% else %}
+                        <a class="btn btn-login" href="#">Login</a>
+                        <a class="btn btn-register" href="#">Sign Up</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Navigation -->
+    <nav class="categories-nav py-2">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
                 {% for category in categories %}
                     <a class="category-tag" href="#">
                         {{ category }}
                     </a>
                 {% endfor %}
             </div>
-        </nav>
-
-        <!-- Main Content Block -->
-        <div class="container mt-4">
-            {% block content %}
-            {% endblock %}
         </div>
+    </nav>
 
+    <!-- Main Content -->
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Crafted with 💜 by <a href="#">Marsh</a> | Powered by Django</p>
-    </footer>
+</div>
+
+<!-- Footer -->
+<footer class="py-4 text-center">
+    <p class="mb-0">
+        Crafted with 💜 by <a href="#">Marsh</a> | Powered by Django
+    </p>
+</footer>
 
 </body>
 </html>

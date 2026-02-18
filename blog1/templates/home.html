@@ -5,66 +5,81 @@
 {% block content %}
 
 <!-- Hero Section -->
-        <div class="hero-post">
-            <div class="hero-post-content">
-                <h1>Building Scalable Django Applications: A Deep Dive</h1>
-                <p class="lead">
-                    Discover advanced patterns and best practices for creating Django projects
-                    that scale while remaining maintainable.
-                </p>
-                <a href="#" class="read-more">Read Full Article →</a>
-            </div>
+<div class="hero-post mb-4" >
+
+    {% for post in featured_posts %}
+        {% if forloop.first %}
+        <div class="hero-post-content text-center text-md-start" >
+            <h1 class="h2 h1-md">{{ post.title }}</h1>
+            <p class="lead">
+                {{ post.short_desc| truncatewords:13 }}
+            </p>
+            <a href="#" class="read-more">Read Full Article →</a>
         </div>
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="post-card">
-                        <h3>Async Views in Django 5.0</h3>
-                        <p class="post-meta">Jan 15 • by Sarah Chen</p>
-                        <p>Exploring asynchronous views and how they improve performance.</p>
-                    </div>
-                </div>
+        {% endif %}
+    {% endfor %}
+</div>
 
-                <div class="col-md-6">
-                    <div class="post-card">
-                        <h3>REST API Security Best Practices</h3>
-                        <p class="post-meta">Jan 12 • by Mike Rodriguez</p>
-                        <p>Best practices for securing Django REST APIs.</p>
-                    </div>
+
+<!-- Two Featured Cards -->
+<div class="row mb-4">
+    <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">
+    Featured Posts
+    </h2>
+    {% for featured_post in featured_posts %}
+        {% if not forloop.first %}
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="post-card h-100">
+                    <h3>{{ featured_post.title }}</h3>
+                    <p class="post-meta">{{ featured_post.created_at| timesince }} • by {{ featured_post.author }}</p>
+                    <p>{{ featured_post.short_desc }}</p>
                 </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+
+</div>
+
+<!-- Main + Sidebar -->
+<div class="row">
+
+    <div class="col-12 col-md-8 mb-4 mb-md-0">
+        <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">
+        Blog Posts
+        </h2>
+        {% for blog in blogs %}
+            <div class="post-card">
+                <h3>{{ blog.title }}</h3>
+                <p class="post-meta">
+                    {{ blog.created_at| timesince }} by
+                    <a href="#" class="author-link; text-dark" >{{ blog.author }}</a>
+                </p>
+                <p>
+                    {{ blog.short_desc }}
+                </p>
             </div>
+        {% endfor %}
+    </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="post-card">
-                        <h3>Optimizing Database Queries with Django ORM</h3>
-                        <p class="post-meta">
-                            January 8, 2026 by
-                            <a href="#" class="author-link">Alex Johnson</a>
-                        </p>
-                        <p>
-                            Learn how select_related and prefetch_related help eliminate N+1 queries.
-                        </p>
-                    </div>
-                </div>
+    <aside class="col-12 col-md-4">
+        <div class="sidebar-widget mb-4">
+            <h4>💡 About This Blog</h4>
+            <p>
+                A platform where developers share real-world Django insights.
+            </p>
+        </div>
 
-                <aside class="col-md-4">
-                    <div class="sidebar-widget">
-                        <h4>💡 About This Blog</h4>
-                        <p>
-                            A platform where developers share real-world Django insights.
-                        </p>
-                    </div>
+        <div class="sidebar-widget">
+            <h4>🔗 Connect With Us</h4>
+            <ul class="social-links list-unstyled">
+                <li><a href="#">GitHub</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">Discord</a></li>
+            </ul>
+        </div>
+    </aside>
 
-                    <div class="sidebar-widget">
-                        <h4>🔗 Connect With Us</h4>
-                        <ul class="social-links">
-                            <li><a href="#">GitHub</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">Discord</a></li>
-                        </ul>
-                    </div>
-                </aside>
-<!-- Rest of your homepage content here -->
+</div>
 
 {% endblock %}
