@@ -13,3 +13,8 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
+
+def search(request):
+
+    return render(request, 'search.html')

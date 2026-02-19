@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bloggss',
+    'assign',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,6 +64,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'bloggss.context_processors.get_categories',
+                'bloggss.context_processors.about_us',
+                'bloggss.context_processors.get_follow_us',
             ],
         },
     },

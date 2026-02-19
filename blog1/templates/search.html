@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- Header -->
+  <h2 class="pb-3 mb-4 font-italic border-bottom text-warning">
+    Search results for "Example Keyword"
+  </h2>
+
+  <!-- Search Results -->
+  <div class="search-results">
+
+    <!-- Example Post Card -->
+    <div class="card border-0 mb-3">
+      <div class="card-body">
+        <h3 class="post-title" style="color:#333;">Understanding CSS Flexbox</h3>
+        <small class="text-muted">
+          2 hours ago | by Jane Doe | Web Development
+        </small>
+        <p class="card-text">
+          Learn how CSS Flexbox works to create responsive layouts easily without using floats or complicated positioning...
+        </p>
+        <button class="btn btn-sm btn-warning">Read More</button>
+      </div>
+    </div>
+
+    <div class="card border-0 mb-3">
+      <div class="card-body">
+        <h3 class="post-title" style="color:#333;">A Guide to Modern JavaScript</h3>
+        <small class="text-muted">
+          5 hours ago | by John Smith | JavaScript
+        </small>
+        <p class="card-text">
+          Modern JavaScript offers many new features such as arrow functions, async/await, and modules. Learn how to use them...
+        </p>
+        <button class="btn btn-sm btn-warning">Read More</button>
+      </div>
+    </div>
+
+    <div class="card border-0 mb-3">
+      <div class="card-body">
+        <h3 class="post-title" style="color:#333;">Intro to Django for Beginners</h3>
+        <small class="text-muted">
+          1 day ago | by Alice Lee | Python
+        </small>
+        <p class="card-text">
+          Django is a high-level Python framework that makes web development fast and secure. Get started with your first project...
+        </p>
+        <button class="btn btn-sm btn-warning">Read More</button>
+      </div>
+    </div>
+
+    <!-- No Results Example -->
+    <p class="text-muted text-center mt-4">
+      No results found. Try a different keyword.
+    </p>
+
+  </div>
+
+</div>
+
+{% endblock %}

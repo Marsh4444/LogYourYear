@@ -14,7 +14,7 @@
             <p class="lead">
                 {{ post.short_desc| truncatewords:13 }}
             </p>
-            <a href="#" class="read-more">Read Full Article →</a>
+            <a href="{% url 'single_blogs' post.slug %}" class="read-more; text-dark text-decoration-none">Read Full Article →</a>
         </div>
         {% endif %}
     {% endfor %}
@@ -30,7 +30,7 @@
         {% if not forloop.first %}
         <div class="col-12 col-md-6 mb-3 mb-md-0">
                 <div class="post-card h-100">
-                    <h3>{{ featured_post.title }}</h3>
+                    <h3><a href="{% url 'single_blogs' featured_post.slug %}" class=" text-decoration-none text-dark">{{ featured_post.title }}</a></h3>
                     <p class="post-meta">{{ featured_post.created_at| timesince }} • by {{ featured_post.author }}</p>
                     <p>{{ featured_post.short_desc }}</p>
                 </div>
@@ -49,10 +49,10 @@
         </h2>
         {% for blog in blogs %}
             <div class="post-card">
-                <h3>{{ blog.title }}</h3>
+                <h3><a href="{% url 'single_blogs' blog.slug %} " class=" text-decoration-none text-dark">{{ blog.title }}</a></h3>
                 <p class="post-meta">
                     {{ blog.created_at| timesince }} by
-                    <a href="#" class="author-link; text-dark" >{{ blog.author }}</a>
+                    <a href="#" class="author-link; text-dark text-decoration-none" >{{ blog.author }}</a>
                 </p>
                 <p>
                     {{ blog.short_desc }}
@@ -62,24 +62,43 @@
     </div>
 
     <aside class="col-12 col-md-4">
-        <div class="sidebar-widget mb-4">
-            <h4>💡 About This Blog</h4>
-            <p>
-                A platform where developers share real-world Django insights.
-            </p>
-        </div>
 
-        <div class="sidebar-widget">
-            <h4>🔗 Connect With Us</h4>
-            <ul class="social-links list-unstyled">
-                <li><a href="#">GitHub</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">LinkedIn</a></li>
-                <li><a href="#">Discord</a></li>
-            </ul>
-        </div>
+            {% if abouts %} 
+            <div class="sidebar-widget mb-4">
+                <h4>{{ abouts.title }}</h4>
+                <p>
+                    {{ abouts.short_desc }}
+                </p>
+            </div>
+            {% endif %}
+
+            <div class="sidebar-widget text-center">
+                <h4 class="fw-bold">🔗 Connect With Us</h4>
+
+                <ul class="social-links list-unstyled">
+                    {% for link in follow_us_links %}
+                    <li class="mb-4">
+                    <a href="{{ link.url }}" target="_blank" 
+                        class="social-icon text-dark fs-1">
+
+                        {% if link.platform == "github" %}
+                            <i class="fa fa-github"></i>
+
+                        {% elif link.platform == "twitter" %}
+                            <i class="fa fa-twitter"></i>
+
+                        {% elif link.platform == "linkedin" %}
+                            <i class="fa fa-linkedin"></i>
+
+                        {% elif link.platform == "discord" %}
+                            <i class="fa fa-discord"></i>
+                        {% endif %}
+                    </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
     </aside>
-
 </div>
 
 {% endblock %}

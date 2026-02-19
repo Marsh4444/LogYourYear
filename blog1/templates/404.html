@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" 
+     style="min-height: 80vh;">
+
+    <div class="text-center col-12 col-md-8 col-lg-6">
+
+        <!-- Big 404 -->
+        <h1 class="fw-bold" 
+            style="font-size: 6rem; letter-spacing: 5px;">
+            404
+        </h1>
+
+        <!-- Message -->
+        <h4 class="mb-3 fw-semibold">
+            Oops 😕 Page Not Found
+        </h4>
+
+        <p class="text-muted mb-4">
+            The page you’re looking for might have been removed,
+            renamed, or doesn’t exist anymore.
+        </p>
+
+        <!-- Button -->
+        <a href="/" 
+           class="btn btn-dark px-4 py-2 rounded-pill shadow-sm">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

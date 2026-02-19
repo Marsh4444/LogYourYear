@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Home - DevThoughts{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="row">
+
+    <!-- LEFT SIDE (Main Content) -->
+    <div class="col-12 col-lg-8">
+
+      <div class="card border-0 shadow-sm p-4 p-md-5">
+
+        <!-- Category -->
+        <span class="badge bg-dark mb-3" style="width: 100px;">
+          {{ single_post.category }}
+        </span>
+
+        <!-- Title -->
+        <h1 class="fw-bold mb-3">
+          {{ single_post.title }}
+        </h1>
+
+        <!-- Meta -->
+        <p class="text-muted small mb-4">
+          {{ single_post.created_at|timesince }} •
+          by <strong>{{ single_post.author }}</strong>
+        </p>
+
+        <!-- Short Description -->
+        <p class="lead text-secondary mb-4">
+          {{ single_post.short_desc }}
+        </p>
+
+        <!-- Featured Image -->
+        {% if single_post.blog_image %}
+          <img 
+            src="{{ single_post.blog_image.url }}"
+            class="img-fluid rounded-3 shadow-sm mb-4"
+            alt="{{ single_post.title }}"
+          >
+        {% endif %}
+
+        <!-- Body -->
+        <div class="post-content fs-5 lh-lg">
+          {{ single_post.content|linebreaks }}
+        </div>
+
+      </div>
+
+    </div> <!-- ✅ Properly closed main column -->
+
+
+
+    <!-- RIGHT SIDE (Sidebar) -->
+    <aside class="col-12 col-lg-4 mt-5 mt-lg-0">
+      <div class="ps-lg-4">
+
+
+        <!-- Categories -->
+        <div class="p-3 mb-4 bg-light rounded shadow-sm">
+          <h5 class="fw-bold mb-3">Categories</h5>
+          <ul class="list-unstyled mb-0">
+            {% for categorie in categories %}
+              <li class="mb-2">
+                <a href="{% url 'category_posts' categorie.id %}" 
+                  class="text-decoration-none text-dark">
+                  {{ categorie }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- About Author -->
+         {% if abouts %} 
+        <div class="p-3 mb-4 bg-light rounded shadow-sm">
+          <h5 class="fw-bold mb-3">{{ abouts.title }}</h5>
+          <p class="mb-0 text-muted">
+            {{ abouts.short_desc }}
+          </p>
+        </div>
+        {% endif %}
+
+        <!-- Follow Us -->
+        
+        <div class="p-3 bg-light rounded shadow-sm">
+          <h5 class="fw-bold mb-3">Follow Us</h5>
+          <ul class="list-unstyled mb-0">
+              <li class="mb-2">
+                <a href="#" 
+                  target="_blank"
+                  class="text-decoration-none text-dark">
+                  GitHub
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" 
+                  target="_blank"
+                  class="text-decoration-none text-dark">
+                  X
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" 
+                  target="_blank"
+                  class="text-decoration-none text-dark">
+                  LinkedIn
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" 
+                  target="_blank"
+                  class="text-decoration-none text-dark">
+                  Discord
+                </a>
+              </li>
+          </ul>
+        </div>
+      </div> 
+    </aside>
+
+  </div>
+</div>
+
+{% endblock %}
