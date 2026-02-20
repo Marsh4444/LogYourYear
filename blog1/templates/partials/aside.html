@@ -1,0 +1,59 @@
+<aside class="col-12 col-lg-4 mt-5 mt-lg-0">
+  <div class="ps-lg-4">
+
+    <!-- Categories -->
+    <div class="p-3 mb-4 bg-light rounded shadow-sm">
+      <h5 class="fw-bold mb-3">Categories</h5>
+      <ul class="list-unstyled mb-0">
+        {% for categorie in categories %}
+          <li class="mb-2">
+            <a href="{% url 'category_posts' categorie.id %}" 
+               class="text-decoration-none text-dark">
+              {{ categorie }}
+            </a>
+          </li>
+        {% empty %}
+          <li class="text-muted small">No categories yet</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- About Section -->
+    {% if abouts %}
+    <div class="p-3 mb-4 bg-light rounded shadow-sm">
+      <h5 class="fw-bold mb-3">{{ abouts.title }}</h5>
+      <p class="mb-0 text-muted">
+        {{ abouts.short_desc }}
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- Follow Us -->
+    <div class="p-3 bg-light rounded shadow-sm">
+      <h5 class="fw-bold mb-3">Follow Us</h5>
+      <ul class="list-unstyled mb-0">
+        <li class="mb-2">
+          <a href="#" target="_blank" class="text-decoration-none text-dark">
+            GitHub
+          </a>
+        </li>
+        <li class="mb-2">
+          <a href="#" target="_blank" class="text-decoration-none text-dark">
+            X
+          </a>
+        </li>
+        <li class="mb-2">
+          <a href="#" target="_blank" class="text-decoration-none text-dark">
+            LinkedIn
+          </a>
+        </li>
+        <li class="mb-2">
+          <a href="#" target="_blank" class="text-decoration-none text-dark">
+            Discord
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</aside>
