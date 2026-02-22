@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<h2>{{ title }}</h2>
+
+<form method="POST" style="width: 400px;">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    {% if is_edit %}
+        <button class="btn btn-secondary">
+        <i class="fa fa-edit"></i> Update
+        </button>
+    {% else %}
+        <button class="btn btn-success">
+        <i class="fa fa-plus"></i> Create
+        </button>
+    {% endif %}
+    <a href="{% url 'category_list' %}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+{% endblock %}

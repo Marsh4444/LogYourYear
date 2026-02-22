@@ -1,9 +1,11 @@
+from multiprocessing import context
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
-from bloggss.models import Blog
+from bloggss.models import Blog, Category  # your Blog and Category models
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from users.decorators import group_required
-from .form import BlogForm
+from .form import BlogForm, CategoryForm
 from django.utils.text import slugify
 from django.utils.timezone import now
 from datetime import timedelta
@@ -205,3 +207,77 @@ def system_reports(request):
     }
 
     return render(request, "users/dashboard/system_reports.html", context)
+
+
+# The category CRUD views (list, create, update, delete) would be implemented similarly to the post CRUD views, but using the Category model and CategoryForm.
+@login_required
+@group_required("Manager", "Editor")
+def category_list(request):
+    categories = Category.objects.all().order_by("category_name")
+    
+    if request.user.groups.filter(name="Manager").exists():
+        dashboard_url = reverse("manager_dashboard")
+
+    elif request.user.groups.filter(name="Editor").exists():
+        dashboard_url = reverse("editor_dashboard")
+
+
+    context = {"categories": categories, "dashboard_url": dashboard_url }
+    
+    return render(request, "users/dashboard/category_list.html", context)
+
+
+@login_required
+@group_required("Manager", "Editor")
+def category_create(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("category_list")
+    else:
+        form = CategoryForm()
+
+    context = {
+        "form": form,
+        "title": "Add Category",
+        "is_edit": False
+    }
+
+    return render(request, "users/dashboard/category_form.html", context)
+
+
+@login_required
+@group_required("Manager", "Editor")
+def category_update(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == "POST":
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect("category_list")
+    else:
+        form = CategoryForm(instance=category)
+
+    context = {
+        "form": form,
+        "title": "Edit Category",
+        "is_edit": True
+    }
+
+    return render(request, "users/dashboard/category_form.html", context)
+
+
+@login_required
+@group_required("Manager")
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == "POST":
+        category.delete()
+        return redirect("category_list")
+
+    return render(request, "users/dashboard/category_confirm_delete.html", {
+        "category": category
+    })

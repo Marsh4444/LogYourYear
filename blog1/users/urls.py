@@ -15,6 +15,13 @@ urlpatterns = [
     path('users/posts/create/', Blogsview.post_create, name='post_create'),
     path('users/posts/<int:pk>/edit/', Blogsview.post_update, name='post_update'),
     path('users/posts/<int:pk>/delete/', Blogsview.post_delete, name='post_delete'),
+
+    #categories CRUD
+    path("users/categories/", Blogsview.category_list, name="category_list"),
+    path("users/categories/add/", Blogsview.category_create, name="category_create"),
+    path("users/categories/edit/<int:pk>/", Blogsview.category_update, name="category_update"),
+    path("users/categories/delete/<int:pk>/", Blogsview.category_delete, name="category_delete"),
+
     #system_reports
     path("users/reports/", Blogsview.system_reports, name="system_reports"),
 ]
