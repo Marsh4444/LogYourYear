@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign Up - DevThoughts{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+
+    <!-- Registration Form Column -->
+    <div class="col-12 col-md-6">
+
+      <div class="card border-0 shadow-sm p-4 p-md-5">
+
+        <!-- Header -->
+        <div class="mb-4 text-center">
+          <h2 class="fw-bold mb-2">Create an Account</h2>
+          <p class="text-muted small mb-0">
+            Join DevThoughts today and start sharing your ideas!
+          </p>
+        </div>
+
+        <hr class="mb-4">
+
+        <!-- Form -->
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          <!-- Crispy Form Rendering -->
+          {{ form|crispy }}
+
+          <!-- Submit Button -->
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary btn-lg">
+              Sign Up
+            </button>
+          </div>
+
+        </form>
+
+        <hr class="my-4">
+
+        <!-- Login Link -->
+        <div class="text-center">
+          <p class="small text-muted mb-0">
+            Already have an account? 
+            <a href="#" class="text-decoration-none">Login here</a>
+          </p>
+        </div>
+
+      </div> <!-- End Card -->
+
+    </div> <!-- End Column -->
+
+  </div> <!-- End Row -->
+</div> <!-- End Container -->
+
+{% endblock %}

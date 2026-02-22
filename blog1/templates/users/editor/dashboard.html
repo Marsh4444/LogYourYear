@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Editor Dashboard - DevThoughts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-md-8 mb-4 mb-md-0">
+        <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">Welcome, {{ user.username }}!</h2>
+        <p>Here you can manage posts and categories.</p>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card">
+                    <h3>Posts</h3>
+                    <p>Manage all posts.</p>
+                    <a href="#" class="btn btn-login">Go</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card">
+                    <h3>Categories</h3>
+                    <p>Manage all categories.</p>
+                    <a href="#" class="btn btn-login">Go</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="col-12 col-md-4">
+        {% include "users/includes/sidebar_editor.html" %}
+    </aside>
+</div>
+{% endblock %}

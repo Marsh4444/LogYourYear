@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Author Dashboard - DevThoughts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-md-8 mb-4 mb-md-0">
+        <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">Welcome, {{ user.username }}!</h2>
+        <p>Here you can manage your own posts.</p>
+
+        <div class="col-12">
+            <div class="post-card">
+                <h3>My Posts</h3>
+                <p>Manage only your posts.</p>
+                <a href="#" class="btn btn-login">Go</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="col-12 col-md-4">
+        {% include "users/includes/sidebar_author.html" %}
+    </aside>
+</div>
+{% endblock %}

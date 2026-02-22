@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Update Blog - DevThoughts{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-12 col-md-8">
+        <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">
+            Update Blog: {{ blog.title }}
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'post_update' blog.pk %}">
+            {% csrf_token %}
+
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-login">Save Changes</button>
+            <a href="{% url 'posts_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <aside class="col-12 col-md-4">
+        {% include "users/includes/sidebar_manager.html" %}
+    </aside>
+</div>
+{% endblock %}

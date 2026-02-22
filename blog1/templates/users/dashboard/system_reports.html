@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}System Reports - DevThoughts{% endblock %}
+
+{% block content %}
+<h2>System Reports</h2>
+
+<!-- ================= Summary Stats Cards ================= -->
+<div class="row mb-4">
+    <!-- Total Blogs -->
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card p-3">
+            <h5>Total Blogs</h5>
+            <p>{{ total_blogs }}</p>
+        </div>
+    </div>
+
+    <!-- Blogs This Month -->
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card p-3">
+            <h5>Blogs This Month</h5>
+            <p>{{ blogs_this_month }}</p>
+        </div>
+    </div>
+
+    <!-- Total Users -->
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card p-3">
+            <h5>Total Users</h5>
+            <p>{{ total_users }}</p>
+        </div>
+    </div>
+
+    <!-- Most Active Author -->
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card p-3">
+            <h5>Most Active Author</h5>
+            <p>{{ most_active_author.author__username }} ({{ most_active_author.post_count }} posts)</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= Charts Section ================= -->
+
+<!-- Blogs per Category (Bar Chart) -->
+<div class="mb-4">
+    <h4>Blogs per Category</h4>
+    <!-- Canvas element for Chart.js -->
+    <canvas id="categoryChart" style="max-height:300px;"></canvas>
+</div>
+
+<!-- User Role Distribution (Pie Chart) -->
+<div class="mb-4">
+    <h4>User Role Distribution</h4>
+    <canvas id="roleChart" style="max-height:450px;"></canvas>
+</div>
+
+<!-- Monthly Blog Growth (Line Chart) -->
+<div class="mb-4">
+    <h4>Monthly Blog Growth</h4>
+    <canvas id="monthlyChart" style="max-height:300px;"></canvas>
+</div>
+
+<!-- ================= Chart.js Library ================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    /* ---------------- Bar Chart: Blogs per Category ---------------- */
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    new Chart(categoryCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ category_labels|safe }},      // Categories from view
+            datasets: [{
+                label: 'Blogs per Category',
+                data: {{ category_counts|safe }},   // Number of blogs in each category
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,                     // Make chart responsive
+            maintainAspectRatio: false,           // Allow max-height style to work
+            plugins: { legend: { display: false } },  // Hide legend for clean look
+            scales: {
+                y: { beginAtZero: true }         // Start y-axis from 0
+            }
+        }
+    });
+
+    /* ---------------- Pie Chart: User Role Distribution ---------------- */
+    const roleCtx = document.getElementById('roleChart').getContext('2d');
+    new Chart(roleCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ role_labels|safe }},       // Roles like Manager, Editor, Author
+            datasets: [{
+                data: {{ role_data|safe }},       // Number of users per role
+                backgroundColor: ['#FF6384','#36A2EB','#FFCE56'] // Color per role
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    /* ---------------- Line Chart: Monthly Blog Growth ---------------- */
+    const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: {{ monthly_labels|safe }},    // Months
+            datasets: [{
+                label: 'Blogs Created',
+                data: {{ monthly_data|safe }},   // Count per month
+                fill: false,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>
+{% endblock %}

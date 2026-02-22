@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Manager Dashboard - DevThoughts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Main Content -->
+    <div class="col-12 col-md-8 mb-4 mb-md-0">
+        <h2 class="fw-bold mb-4 text-dark border-bottom pb-2">Welcome, {{ user.username }}!</h2>
+        <p>Here you can manage posts, categories, and users.</p>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="stats-card p-3 border rounded">
+                    <h5>Posts</h5>
+                    <p>{{ posts_count }} total</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="stats-card p-3 border rounded">
+                    <h5>Categories</h5>
+                    <p>{{ categories_count }} total</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="stats-card p-3 border rounded">
+                    <h5>Users</h5>
+                    <p>{{ users_count }} total</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Management Cards -->
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card p-3 border rounded h-100 d-flex flex-column justify-content-between">
+                    <h3>Posts</h3>
+                    <p>Manage all posts: create, edit, or delete.</p>
+                    <a href="{% url 'posts_list' %}" class="btn btn-login mt-2">Go</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card p-3 border rounded h-100 d-flex flex-column justify-content-between">
+                    <h3>Users</h3>
+                    <p>Manage all users and assign roles.</p>
+                    <a href="#" class="btn btn-login mt-2">Go</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card p-3 border rounded h-100 d-flex flex-column justify-content-between">
+                    <h3>Categories</h3>
+                    <p>Manage post categories for better organization.</p>
+                    <a href="#" class="btn btn-login mt-2">Go</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <div class="post-card p-3 border rounded h-100 d-flex flex-column justify-content-between">
+                    <h3>Reports</h3>
+                    <p>View system activity and reports.</p>
+                    <a href="{% url 'system_reports' %}" class="btn btn-login mt-2">Go</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="col-12 col-md-4">
+        {% include "users/includes/sidebar_manager.html" %}
+    </aside>
+</div>
+{% endblock %}
